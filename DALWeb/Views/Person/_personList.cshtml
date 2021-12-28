@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Data.Models.tbCustomer>
+
+
+<div class="dealer-section py-5">
+    <h2 class="text-center">Customer updates</h2>
+    <h5 class="text-center pb-4">@Model.Count() customers are listed in this table</h5>
+
+    <div class="container">
+       
+        <table class="table table-bordered" style="width: 800px;" >
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Country</th>
+                    <th scope="col"></th>
+                   
+
+                </tr>
+            </thead>
+
+
+            @foreach (var item in Model)
+            {
+
+                <tbody>
+
+                    <tr>
+                        <th scope="row">@item.PersonID</th>
+                        <td>@item.Name</td>
+                        <td>@item.Email</td>
+                        <td>@item.Phone</td>
+                        <td>@item.Address</td>
+                        <td>@item.Country</td>
+                        <td>
+
+                            <a href="/Person/UserForm?ID=@item.PersonID&FormType=Edit">
+                                <span style="margin-left:10px">
+                                    <i class="fas fa-edit float-right"></i>
+                                </span>
+                            </a>
+
+                            <a class="delete" data-ID="@item.PersonID" onclick="DeleteForm(this)">
+                                <span style="margin-left:20px"><i class="fas fa-trash float-right text-danger"></i></span></a>
+                        </td>
+
+                    </tr>
+                </tbody>
+            }
+        </table>
+    </div>
+
+  
+
+
+
+
+</div>
+
+
+
+

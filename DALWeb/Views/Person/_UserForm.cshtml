@@ -1,0 +1,98 @@
+﻿@model Data.Models.tbCustomer
+
+
+@using (Html.BeginForm("", "Person", FormMethod.Post, new { id = "PersonForm_view" }))
+{
+
+
+    <section id="add-person">
+        <!-- Page Header -->
+        <!--Content-->
+        <div class="container-fluid">
+
+            <div class="row mt-20">
+              
+                <div class="col-md-6 mb-20">
+                    <div class="panel-custom pa-20">
+                      
+                        <div class="row mt-20">
+                            <div class="col-md-6 mb-20">
+                                <p class="mb-10" style="color:#fff"><span class="icon-phone-wave mr-10 fs-14"></span>Name</p>
+
+                                @Html.TextBoxFor(m => m.Name, new { type = "text", @class = "form-control", required = "" })
+
+                            </div>
+
+                                                   
+                            <div class="col-md-6 mb-20">
+                                <p class="mb-10" style="color:#fff"><span class="icon-envelop5 mr-10 fs-14"></span>Email</p>
+                                @Html.TextBoxFor(m => m.Email, new { type = "text", @class = "form-control", required = "" })
+
+                            </div>
+                            <div class="col-md-6 mb-20">
+                                <p class="mb-10" style="color:#fff"><span class="icon-phone-wave mr-10 fs-14"></span>Phone</p>
+
+                                @Html.TextBoxFor(m => m.Phone, new { type = "text", @class = "form-control", required = "" })
+
+                            </div>
+
+                            <div class="col-md-6 mb-20">
+                                <p class="mb-10" style="color:#fff"><span class="icon-phone-wave mr-10 fs-14"></span>Fax</p>
+
+                                @Html.TextBoxFor(m => m.Fax, new { type = "text", @class = "form-control", required = "" })
+
+                            </div>
+                            <div class="col-md-6 mb-20">
+                                <p class="mb-10" style="color:#fff"><span class="icon-phone-wave mr-10 fs-14"></span>Postcode</p>
+
+                                @Html.TextBoxFor(m => m.Postcode, new { type = "text", @class = "form-control", required = "" })
+
+                            </div>
+                            <div class="col-md-6 mb-20">
+                                <p class="mb-10" style="color:#fff"><span class="icon-phone-wave mr-10 fs-14"></span>Address</p>
+
+                                @Html.TextBoxFor(m => m.Address, new { type = "text", @class = "form-control", required = "" })
+
+                            </div>
+                            <div class="col-md-6 mb-20">
+                                <p class="mb-10" style="color:#fff"><span class="icon-phone-wave mr-10 fs-14"></span>Country</p>
+
+                                @Html.TextBoxFor(m => m.Country, new { type = "text", @class = "form-control", required = "" })
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+              
+            </div>
+        </div>
+
+        <!--/Content-->
+
+
+    </section>
+    <br /><br/>
+
+    @Html.HiddenFor(m => m.PersonID)
+    @Html.HiddenFor(m => m.IsDeleted)
+   
+
+    <div class="modal-footer">
+        <a class="btn-front-default btn" href="../person"><span class="icon-minus-circle2 mr-10"></span>Cancel</a>
+        <button type="submit" class="btn btn-primary" id=""><span class="icon-add"></span> Save</button>
+    </div>
+
+
+}
+
+
+
+
+
+
+
+
+
+

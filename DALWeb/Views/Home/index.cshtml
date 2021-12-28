@@ -1,0 +1,207 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<div class="container-fluid">
+
+    <div class="row g-5">
+        <nav class="col-2 bg-light pr-3">
+            <h1 class="h4 py-3 text-center text-primary">
+                <i class="fas fa-user mr-2"></i>
+                <span class="d-none d-lg-inline">
+                     ADMIN
+                </span>
+            </h1>
+            <div class="list-group text-center text-lg-left">
+                <span class="list-group-item disabled d-none d-lg-block">
+                    <small>CONTROLS</small>
+                </span>
+                <a href="/Home/index" class="list-group-item list-group-item-action" id="dashboard">
+                    <i class="fas fa-home"></i>
+                    <span class="d-none d-lg-inline">Dashboard</span>
+                </a>
+                <a href="/Person/Index" class="list-group-item list-group-item-action">
+                    <i class="fas fa-users"></i>
+
+                    <span class="d-none d-lg-inline">Customer</span>
+                </a>
+                @*<span class="d-none d-lg-inline badge bg-danger
+                    rounded-pill float-right">20</span>*@
+
+               
+            </div>
+            <div class="list-group mt-4 text-center text-lg-left">
+                <span class="list-group-item disabled d-none d-lg-block">
+                    <small>ACTIONS</small>
+                </span>
+                <a href="/Person/UserForm" class="list-group-item list-group-item-action">
+                    <i class="fas fa-user"></i>
+                    <span class="d-none d-lg-inline">Add New User</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                    <i class="fas fa-edit"></i>
+                    <span class="d-none d-lg-inline">Update Data</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                    <i class="far fa-calendar-alt"></i>
+                    <span class="d-none d-lg-inline">Add Events</span>
+                </a>
+            </div>
+        </nav>
+        <main class="col-10 bg-secondary">
+
+            <div class="container-fluid mt-4">
+
+                <!-- Search Filter -->
+
+
+                <div class="row mt-20" id="search-filter">
+                    <div class="col-md-3 col-sm-6 mb-20">
+                        <div>
+                            <select class="form-control" required="" id="chooseby_brand">
+                                <option value="Title" style="color:#aaa">Choose By</option>
+                                <option value="Title">Name</option>
+                                <option value="Accesstime">AccessTime</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-20">
+                        <div>
+                            <select class="form-control" required="" id="sortby_brand">
+                                <option value="ASC" style="color:#aaa">Sort By</option>
+                                <option value="ASC">Ascending</option>
+                                <option value="DSC">Descending</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-3 col-sm-12 mb-20">
+                        <div class="has-feedback">
+                            <input type="text" class="form-control rounded-input" id="txt_value" placeholder="Search Name" onkeyup="keySearch(this.value)">
+                            <div class="form-control-feedback">
+                                <i class="icon-search4 text-size-base"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- /Search Filter -->
+
+            <div id="personlist">
+
+            </div>
+
+        </main>
+    </div>
+</div>
+
+
+
+
+
+@section Scripts{
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#dashboard").addClass("active");
+
+           
+
+        });
+
+        $(function () {
+
+            bindList();
+            //initComponents();
+
+        })
+
+        var FilterName = null;
+        var Keyword = "";
+        var OrderBy = "Accesstime";
+        var timeout;
+
+        function keySearch(e) {
+            clearTimeout(timeout);
+
+            timeout = setTimeout(() => {
+                Search(e);
+            }, 500);
+        }
+
+
+        function Search() {
+            FilterName = $('#txt_value').val().trim();
+
+            OrderBy = $('#chooseby_brand').val();
+            page = 1;
+            bindList();
+        }
+
+        //function initComponents() {
+        //    $('#chooseby_brand').on('change', function () {
+        //        Direction = $('#sortby_brand').val();
+        //        OrderBy = $('#chooseby_brand').val();
+        //        bindList();
+
+        //    })
+
+        //    $('#sortby_brand').on('change', function () {
+
+        //        Direction = $('#sortby_brand').val();
+        //        OrderBy = $('#chooseby_brand').val();
+        //        bindList();
+
+        //    })
+
+         function DeleteForm(e) {
+            var customerID = $(e).attr('data-ID');
+                $.ajax({
+                    cache: false,
+                    url: '@Url.Action("Delete", "Person")',
+                    data: {
+                        ID: customerID
+                    },
+                beforeSend: function () {
+
+                },
+                success: function (result) {
+                    if (result == "Success") {
+                        bindList();
+                    }
+                },
+                complete: function () {
+
+                }
+
+            });
+        }
+           function bindList(e) {
+            $.ajax({
+                 cache: false,
+                 url: '@Url.Action("_personList", "Person")',
+
+                data: { FilterName: FilterName},
+
+
+                 beforeSend: function () {
+
+                 },
+                 success: function (result) {
+                     $('#personlist').empty().append(result);
+                 },
+                 complete: function () {
+                 }
+         });
+     }
+
+    </script>
+}
+

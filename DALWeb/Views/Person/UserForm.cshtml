@@ -1,0 +1,211 @@
+﻿
+@{
+    ViewBag.Title = "UserForm";
+}
+
+
+
+@*<section id="add-user">
+    
+
+    @if (ViewBag.FormType != "Edit")
+    {
+        <div class="pa-20 bg-white page-title display-flex">
+            <h4 class="theme-color font-bold"><span class="icon-office mr-10"></span>Add New User</h4>
+            <a class="btn-front-default btn" href="../Person"><span class="icon-minus-circle2 mr-10"></span>Cancel</a>
+        </div>
+    }
+    else
+    {
+        <div class="pa-20 bg-white page-title display-flex">
+            <h4 class="theme-color font-bold"><span class="icon-office mr-10"></span>Edit User</h4>
+            <a class="btn-front-default btn" href="../Person"><span class="icon-minus-circle2 mr-10"></span>Cancel</a>
+        </div>
+    }       
+
+
+</section>*@
+
+<div class="container-fluid">
+
+    <div class="row g-10">
+        <nav class="col-2 bg-light pr-3">
+            <h1 class="h4 py-3 text-center text-primary">
+                <i class="fas fa-user mr-2"></i>
+                <span class="d-none d-lg-inline">
+                    ADMIN
+                </span>
+            </h1>
+            <div class="list-group text-center text-lg-left">
+                <span class="list-group-item disabled d-none d-lg-block">
+                    <small>CONTROLS</small>
+                </span>
+                <a href="#" class="list-group-item list-group-item-action active">
+                    <i class="fas fa-home"></i>
+                    <span class="d-none d-lg-inline">Dashboard</span>
+                </a>
+                <a href="/Person/Index" class="list-group-item list-group-item-action">
+                    <i class="fas fa-users"></i>
+
+                    <span class="d-none d-lg-inline">Customer</span>
+                </a>
+
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                    <i class="fas fa-chart-line"></i>
+                    <span class="d-none d-lg-inline">Statistics</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                    <i class="fas fa-flag"></i>
+                    <span class="d-none d-lg-inline">Reports</span>
+                </a>
+            </div>
+            <div class="list-group mt-4 text-center text-lg-left">
+                <span class="list-group-item disabled d-none d-lg-block">
+                    <small>ACTIONS</small>
+                </span>
+                <a href="/Person/UserForm" class="list-group-item list-group-item-action">
+                    <i class="fas fa-user"></i>
+                    <span class="d-none d-lg-inline">Add New User</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                    <i class="fas fa-edit"></i>
+                    <span class="d-none d-lg-inline">Update Data</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                    <i class="far fa-calendar-alt"></i>
+                    <span class="d-none d-lg-inline">Add Events</span>
+                </a>
+            </div>
+        </nav>
+
+    
+        <main class="col-10 bg-secondary pl-3" style="margin: 30px auto">
+            <section id="add-user">
+
+
+                @if (ViewBag.FormType != "Edit")
+                {
+                    <div class="pa-20 bg-white page-title display-flex">
+                        <h4 class="font-bold bg-secondary" style="text-align:center"><span class="icon-office mr-10"></span>Add New User</h4>
+
+                    </div>
+                }
+                else
+                {
+                    <div class="pa-20 bg-white page-title display-flex">
+                        <h4 class="font-bold bg-secondary" style="text-align:center"><span class="icon-office mr-10"></span>Edit User</h4>
+
+                    </div>
+                }
+
+
+            </section>
+
+            <div class="container-fluid mt-3 ml-6 p-4">
+                <div class="row mb-3">
+                    <div class="col">
+                        <div id="UserForm">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+           
+
+
+
+        </main>
+    </div>
+</div>
+
+
+@section scripts{
+    <script type="text/javascript">
+
+
+    var ID = '@ViewBag.ID';
+    var FormType = '@ViewBag.FormType';
+
+
+        $(function () {
+
+            if (FormType != "Edit") {
+                addNew();
+
+            } else {
+                UserForm("Edit", ID);
+
+            }
+
+
+        })
+
+
+    function addNew() {
+        UserForm("Add", 0)
+
+    }
+
+
+
+        function UserForm(FormType, ID) {
+            console.log(FormType, ID);
+
+            $.ajax({
+            cache: false,
+            url: '@Url.Action("_UserForm", "Person")',
+            data: {
+                FormType: FormType, ID: ID
+                  },
+            beforeSend: function () {
+
+                    },
+
+            success: function (myData) {
+
+            $('#UserForm').empty().append(myData);
+
+
+                },
+            complete: function () {
+
+
+            $('#PersonForm_view').submit(function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("UpsertPerson", "Person")',
+                type: "Post",
+                data: $(this).serialize(),
+                beforeSend: function () {
+                $('.btn').prop("disabled", true);
+                },
+                success: function (myData) {
+                if (myData == "Success") {
+                    location.href = '../person';
+                }
+                else {
+                    alert('Fail');
+                    }
+                },
+                complete: function () {
+                $('.btn').prop("disabled", false);
+
+                    }
+                });
+            });
+        }
+        });
+    }
+
+
+
+    </script>
+
+}
+
+
